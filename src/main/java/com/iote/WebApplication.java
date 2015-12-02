@@ -3,7 +3,7 @@ package com.iote;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import com.iote.resources.HelloWorldResource;
+import com.iote.resources.UserResource;
 import com.iote.health.TemplateHealthCheck;
 
 public class WebApplication extends Application<WebConfiguration> {
@@ -24,7 +24,7 @@ public class WebApplication extends Application<WebConfiguration> {
     @Override
     public void run(WebConfiguration configuration,
                     Environment environment) {
-        final HelloWorldResource resource = new HelloWorldResource(
+        final UserResource resource = new UserResource(
                 configuration.getTemplate(),
                 this.getName()
         );
@@ -32,7 +32,7 @@ public class WebApplication extends Application<WebConfiguration> {
                 new TemplateHealthCheck(configuration.getTemplate());
         environment.healthChecks().register("template", healthCheck);
         environment.jersey().register(resource);
-        System.out.print("sukana");
+        
     }
 
 }

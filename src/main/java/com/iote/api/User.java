@@ -7,10 +7,12 @@ import com.iote.api.user.Registration;
 import com.iote.api.user.Session;
 
 import java.util.ArrayList;
+import lombok.Builder;
 
 @Data
-public class User {
-
+@Builder
+public class User 
+{
     private final String username;
     private final String password;
 
@@ -29,5 +31,9 @@ public class User {
     private final ArrayList<Log> updated;
     private final ArrayList<Beacon> beacons;
     private final ArrayList<Session> sessions;
+
+    
+    
+    
 
 }
