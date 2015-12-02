@@ -24,8 +24,7 @@ public class UserResource
     private final String defaultName;
     private final AtomicLong counter;
 
-    public UserResource(String template, String defaultName) 
-                                  
+    public UserResource(String template, String defaultName)
     {
         this.template = template;
         this.defaultName = defaultName;
@@ -42,12 +41,11 @@ public class UserResource
 
     @GET
     @Timed
-    public User getUser(@QueryParam("name") Optional<String> name) 
-                                                   throws UnknownHostException 
+    public User getUser(@QueryParam("name") Optional<String> name) throws UnknownHostException
     {
         DB db = connectDB();
         String temp = db.getCollectionNames().toString();
-        return User.builder().username(temp).build();
+        return User.builder().firstName(temp).build();
     }
     
 }

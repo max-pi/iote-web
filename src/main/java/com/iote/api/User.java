@@ -2,10 +2,6 @@ package com.iote.api;
 
 import lombok.Data;
 
-import com.iote.api.user.Contact;
-import com.iote.api.user.Registration;
-import com.iote.api.user.Session;
-
 import java.util.ArrayList;
 import lombok.Builder;
 
@@ -13,27 +9,15 @@ import lombok.Builder;
 @Builder
 public class User 
 {
-    private final String username;
-    private final String password;
+    private final String  _id;
+    private final String twilioId;
 
-    private final String name;
-    private final String zipcode;
+    private final String lastName;
+    private final String firstName;
 
-    private final String role;
-    private final boolean active;
+    private final String email;
+    private final String phone;
 
-    private final Application application;
-    private final Contact contact;
-
-    private final Registration registration;
-    private final String resetPasswordToken;
-
-    private final ArrayList<Log> updated;
     private final ArrayList<Beacon> beacons;
-    private final ArrayList<Session> sessions;
-
-    
-    
-    
 
 }
