@@ -2,7 +2,8 @@ package com.iote.api;
 
 import lombok.Data;
 
-import java.util.ArrayList;
+import java.util.List;
+
 import lombok.Builder;
 
 @Data
@@ -10,14 +11,17 @@ import lombok.Builder;
 public class User 
 {
     private final String  _id;
-    private final String twilioId;
 
-    private final String lastName;
-    private final String firstName;
+    private final String password;
 
-    private final String email;
-    private final String phone;
+    private final List<String> emails;
+    private final List<String> phones;
+    private final List<Beacon> beacons;
 
-    private final ArrayList<Beacon> beacons;
+    private final Metadata metadata;
 
+    class Metadata {
+        private String firstName;
+        private String lastName;
+    }
 }

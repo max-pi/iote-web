@@ -45,7 +45,7 @@ public class UserResource
     {
         DB db = connectDB();
         String temp = db.getCollectionNames().toString();
-        return User.builder().firstName(temp).build();
+        return User.builder()._id(temp).build();
     }
     
 }
