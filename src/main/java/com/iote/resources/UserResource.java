@@ -2,9 +2,13 @@ package com.iote.resources;
 
 import com.mongodb.*;
 import com.iote.api.User;
+import com.iote.api.Emails;
+import com.iote.api.Phones;
 import com.google.common.base.Optional;
 import com.codahale.metrics.annotation.Timed;
+import com.google.gson.Gson;
 import java.net.UnknownHostException;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,8 +16,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
+import org.bson.types.ObjectId;
 
 
 @Path("/")
@@ -31,13 +38,7 @@ public class UserResource
         this.counter = new AtomicLong();
         
     }
-    
-    private DB connectDB() throws UnknownHostException
-    {
-        MongoClient mongo = new MongoClient( "localhost" , 27017 );
-        DB db = mongo.getDB("iote");
-        return db;
-    }
+ 
 
     @GET
     @Timed
@@ -48,4 +49,87 @@ public class UserResource
         return User.builder()._id(temp).build();
     }
     
+    @Path("/register")
+    @POST
+    public void registration(@FormParam("email or phone") String contact,
+                             @FormParam("password") String pw)
+                                                   throws UnknownHostException
+    {
+        String type = contactValidation(contact);
+        switch (type) {
+            case "email":
+            {
+                User user = User.builder().password(pw).build();
+                ObjectId id = javaToMongoId(user);
+                Emails attempt = new Emails(contact, id);
+                break;
+            }
+            case "phone":
+            {
+                User user = User.builder().password(pw).build();
+                ObjectId id = javaToMongoId(user);
+                Phones attempt = new Phones(contact, id);
+                break;
+            }
+            default:
+            {
+                //response for invalid contact
+                break;
+            }
+        }
+    }
+    
+    
+    private DB connectDB() throws UnknownHostException
+    {
+        MongoClient mongo = new MongoClient( "localhost" , 27017 );
+        DB db = mongo.getDB("iote");
+        return db;
+    }
+    
+    /**
+     * Takes in a string and checks for possible email or phone patterns
+     * @param contact the string to be checked for
+     * @return the type of contact as a string
+     */
+    private String contactValidation(String contact)
+    {
+        String regex = ("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]"
+                        + "+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(contact);
+        regex = "[0-9]{8,10}";
+        pattern = Pattern.compile(regex);
+        Matcher matcher2 = pattern.matcher(contact);
+        if (matcher.matches())
+        {
+            return "email";
+        }
+        else if (matcher2.matches())
+        {
+            return "phone"; 
+        }
+        else
+        {
+            return "invalid contact";
+        }
+    }
+    
+    /**
+     * Saves a user object into mongodb and returns its id
+     * @param user the user to be added
+     * @return the ObjectId of the newly added user
+     * @throws UnknownHostException 
+     */
+    private ObjectId javaToMongoId(User user) throws UnknownHostException
+    {
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        BasicDBObject object = new BasicDBObject("users", json);
+        DB db = connectDB();
+        DBCollection coll = db.getCollection("users");
+        coll.insert(object);
+        ObjectId id = (ObjectId) object.get( "_id" );
+        return id;
+    }
 }
