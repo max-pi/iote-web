@@ -1,19 +1,24 @@
 package com.iote.api.user;
 
 import lombok.Data;
-
-import java.util.List;
+import org.bson.types.ObjectId;
+import java.util.UUID;
 
 @Data
-public class Phone {
-    private final String _id;
-    private final String phone;
-    private final boolean confirmed;
-    private final String confirmedUser;
-    private final List<Attempt> attemptedUsers;
-
-    class Attempt {
-        private String user;
-        private String key;
+public class Phone
+{
+    public final String number;
+    private final ObjectId id;
+    private final String key;
+    
+    private boolean confirmed;
+    private String confirmedUser;
+    private static String[][] attemptedUsers;
+    
+    public Phone (String number, ObjectId id)
+    {
+        this.number = number;
+        this.id = id;
+        this.key = UUID.randomUUID().toString();
     }
 }

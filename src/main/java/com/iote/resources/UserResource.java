@@ -2,12 +2,13 @@ package com.iote.resources;
 
 import com.mongodb.*;
 import com.iote.api.User;
-import com.iote.api.Emails;
-import com.iote.api.Phones;
+import com.iote.api.user.Email;
+import com.iote.api.user.Phone;
 import com.google.common.base.Optional;
 import com.codahale.metrics.annotation.Timed;
 import com.google.gson.Gson;
 import java.net.UnknownHostException;
+import java.util.List;
 
 
 import javax.ws.rs.GET;
@@ -30,6 +31,8 @@ public class UserResource
     private final String template;
     private final String defaultName;
     private final AtomicLong counter;
+    private static List<Email> emailList;
+    private static List<Phone> phoneList;
 
     public UserResource(String template, String defaultName)
     {
@@ -61,14 +64,30 @@ public class UserResource
             {
                 User user = User.builder().password(pw).build();
                 ObjectId id = javaToMongoId(user);
-                Emails attempt = new Emails(contact, id);
+                Email attempt = new Email(contact, id);
                 break;
             }
             case "phone":
             {
                 User user = User.builder().password(pw).build();
                 ObjectId id = javaToMongoId(user);
-                Phones attempt = new Phones(contact, id);
+                boolean exist = false;
+                for (Phone phone : phoneList) 
+                {
+                    if (phone.number.equals(contact)) 
+                    {
+                        exist = true;
+                        break;
+                    } 
+                }
+                if (exist)
+                {
+                    
+                } else
+                {
+                    Phone attempt = new Phone(contact, id);
+                }
+                
                 break;
             }
             default:
@@ -98,7 +117,7 @@ public class UserResource
                         + "+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(contact);
-        regex = "[0-9]{8,10}";
+        regex = "[0-9]{8,10}";          //basic 8-10 digit number, subject to change
         pattern = Pattern.compile(regex);
         Matcher matcher2 = pattern.matcher(contact);
         if (matcher.matches())
