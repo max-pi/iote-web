@@ -9,23 +9,32 @@ import org.bson.types.ObjectId;
 @Data
 public class Email
 {
-    private final String email;
-    private final ObjectId id;
-    private final String key;
+    public final String email;
     
     private boolean confirmed;
     private String confirmedUser;
-    private static List<Attempt> attemptedUsers;
+    public  List<Attempt> attemptedUsers;
+    
+    public Email ()
+    {
+        this.email = "";
+    }
     
     public Email (String email, ObjectId id)
     {
         this.email = email;
-        this.id = id;
-        this.key = UUID.randomUUID().toString();
+        this.attemptedUsers.add(this.new Attempt(id));
     }
-
-    class Attempt 
+    
+    public class Attempt
     {
-        private String hi;
+        ObjectId id;
+        String key;
+        
+        public Attempt (ObjectId id)
+        {
+            this.id = id;
+            this.key = UUID.randomUUID().toString();
+        }
     }
 }

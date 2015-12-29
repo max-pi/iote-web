@@ -4,6 +4,7 @@ import com.mongodb.*;
 import com.iote.api.User;
 import com.iote.api.user.Email;
 import com.iote.api.user.Phone;
+import com.iote.api.user.Phone.Attempt;
 import com.google.common.base.Optional;
 import com.codahale.metrics.annotation.Timed;
 import com.google.gson.Gson;
@@ -76,18 +77,15 @@ public class UserResource
                 {
                     if (phone.number.equals(contact)) 
                     {
-                        exist = true;
-                        break;
-                    } 
+                      exist = true;
+                      phone.attemptedUsers.add(phone.new Attempt(id));
+                      break;
+                    }
                 }
-                if (exist)
-                {
-                    
-                } else
+                if (!exist)
                 {
                     Phone attempt = new Phone(contact, id);
-                }
-                
+                } 
                 break;
             }
             default:
