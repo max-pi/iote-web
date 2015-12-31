@@ -11,7 +11,7 @@ public class Phone
     public final String number;
     
     private boolean confirmed;
-    private String confirmedUser;
+    private ObjectId confirmedUser;
     public  List<Attempt> attemptedUsers;
     
     public Phone ()
@@ -24,10 +24,24 @@ public class Phone
         this.number = number;
         this.attemptedUsers.add(this.new Attempt(id));
     }
+
+    public Attempt verify (String key) 
+    {
+        for (Attempt user : attemptedUsers) 
+        {
+            if (user.key.equals(key)) 
+            {
+                confirmed = true;
+                confirmedUser = user.id;
+                return user;
+            }
+        }
+        return null;
+    }
     
     public class Attempt
     {
-        ObjectId id;
+        public ObjectId id;
         String key;
         
         public Attempt (ObjectId id)

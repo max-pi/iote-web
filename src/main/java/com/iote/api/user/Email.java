@@ -12,7 +12,7 @@ public class Email
     public final String email;
     
     private boolean confirmed;
-    private String confirmedUser;
+    private ObjectId confirmedUser;
     public  List<Attempt> attemptedUsers;
     
     public Email ()

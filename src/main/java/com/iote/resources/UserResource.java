@@ -57,7 +57,7 @@ public class UserResource
     @POST
     public void registration(@FormParam("email or phone") String contact,
                              @FormParam("password") String pw)
-                                                   throws UnknownHostException
+                                                  throws UnknownHostException
     {
         String type = contactValidation(contact);
         switch (type) {
@@ -96,6 +96,28 @@ public class UserResource
         }
     }
     
+    @Path("/verify")
+    @POST
+    public void verification(@FormParam("number") String num,
+                             @FormParam("key") String key)
+                                                  throws UnknownHostException
+    {
+        for (Phone phone : phoneList) 
+        {
+            if (phone.number.equals(num)) 
+            {
+                Phone.Attempt user = phone.verify(key);
+                if (user != null)
+                {
+                    DBCollection coll = connectDB().getCollection("users");
+                    BasicDBObject query = new BasicDBObject();
+                    query.put("_id", user.id);
+                    DBObject dbObj = coll.findOne(query);
+                }
+                break;
+            }
+        }
+    }
     
     private DB connectDB() throws UnknownHostException
     {
