@@ -39,14 +39,24 @@ public class UserResource {
 
     @GET
     @Path("/")
+    // Searches for users based on specified params
     public User getUser() throws UnknownHostException {
         return User.builder().build();
     }
 
+    @GET
+    @Path("/active")
+    // Returns the active user if one exists by Basic Access Authentication
+    public User getActive() throws UnknownHostException {
+        return User.builder()._id("ok buddy this is ID").password("yes").build();
+    }
+
     @POST
     @Path("/register")
-    public void registration(@FormParam("contact") String contact,
+    // Creates a new and unactivated user account
+    public void postRegister(@FormParam("contact") String contact,
                              @FormParam("password") String password) throws UnknownHostException {
+        /*
         String type = contactValidation(contact);
         switch (type) {
             case "email": {
@@ -76,12 +86,14 @@ public class UserResource {
                 break;
             }
         }
+        */
     }
 
     @POST
     @Path("/verify")
-    public void verification(@FormParam("number") String num,
-                             @FormParam("key") String key) throws UnknownHostException {
+    public void postVerify(@FormParam("number") String num,
+                           @FormParam("key") String key) throws UnknownHostException {
+        /*
         for (Phone phone : phoneList) {
             if (phone.number.equals(num)) {
                 Phone.Attempt user = phone.verify(key);
@@ -94,6 +106,7 @@ public class UserResource {
                 break;
             }
         }
+        */
     }
 
 
@@ -131,8 +144,7 @@ public class UserResource {
         Gson gson = new Gson();
         String json = gson.toJson(user);
         BasicDBObject object = new BasicDBObject("users", json);
-        DB db = connectDB();
-        DBCollection coll = db.getCollection("users");
+        DBCollection coll = this.mongoDb.getCollection("users");
         coll.insert(object);
         ObjectId id = (ObjectId) object.get("_id");
         return id;
