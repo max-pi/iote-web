@@ -40,6 +40,7 @@ public class UserResource {
     @GET
     @Path("/")
     public User getUser() throws UnknownHostException {
+        return User.builder().build();
     }
 
     @POST
@@ -77,15 +78,15 @@ public class UserResource {
         }
     }
 
-    @Path("/verify")
     @POST
+    @Path("/verify")
     public void verification(@FormParam("number") String num,
                              @FormParam("key") String key) throws UnknownHostException {
         for (Phone phone : phoneList) {
             if (phone.number.equals(num)) {
                 Phone.Attempt user = phone.verify(key);
                 if (user != null) {
-                    DBCollection coll = connectDB().getCollection("users");
+                    DBCollection coll = this.mongoDb.getCollection("users");
                     BasicDBObject query = new BasicDBObject();
                     query.put("_id", user.id);
                     DBObject dbObj = coll.findOne(query);
