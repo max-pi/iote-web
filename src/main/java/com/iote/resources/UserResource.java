@@ -25,71 +25,49 @@ import javax.ws.rs.POST;
 import org.bson.types.ObjectId;
 
 
-@Path("/")
+@Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
-public class UserResource
-{
-    private final String template;
-    private final String defaultName;
-    private final AtomicLong counter;
-    private static List<Email> emailList;
-    private static List<Phone> phoneList;
+public class UserResource {
 
-    public UserResource(String template, String defaultName)
-    {
-        this.template = template;
-        this.defaultName = defaultName;
-        this.counter = new AtomicLong();
-        
+    private DB mongoDb;
+    public UserResource(DB mongoDb) { // initializing user resource
+        this.mongoDb = mongoDb;
     }
- 
 
     @GET
-    @Timed
-    public User getUser(@QueryParam("name") Optional<String> name) throws UnknownHostException
-    {
-        DB db = connectDB();
-        String temp = db.getCollectionNames().toString();
-        return User.builder()._id(temp).build();
+    @Path("/")
+    public User getUser() throws UnknownHostException {
     }
-    
-    @Path("/register")
+
     @POST
-    public void registration(@FormParam("email or phone") String contact,
-                             @FormParam("password") String pw)
-                                                  throws UnknownHostException
-    {
+    @Path("/register")
+    public void registration(@FormParam("contact") String contact,
+                             @FormParam("password") String password) throws UnknownHostException {
         String type = contactValidation(contact);
         switch (type) {
-            case "email":
-            {
-                User user = User.builder().password(pw).build();
+            case "email": {
+                User user = User.builder().password(password).build();
                 ObjectId id = javaToMongoId(user);
                 Email attempt = new Email(contact, id);
                 break;
             }
-            case "phone":
-            {
-                User user = User.builder().password(pw).build();
+            case "phone": {
+                User user = User.builder().password(password).build();
                 ObjectId id = javaToMongoId(user);
                 boolean exist = false;
-                for (Phone phone : phoneList) 
-                {
-                    if (phone.number.equals(contact)) 
-                    {
+                for (Phone phone : phoneList) {
+                    if (phone.number.equals(contact)) {
                       exist = true;
                       phone.attemptedUsers.add(phone.new Attempt(id));
                       break;
                     }
                 }
-                if (!exist)
-                {
+                if (!exist) {
                     Phone attempt = new Phone(contact, id);
                 } 
                 break;
             }
-            default:
-            {
+            default: {
                 //response for invalid contact
                 break;
             }
@@ -99,16 +77,11 @@ public class UserResource
     @Path("/verify")
     @POST
     public void verification(@FormParam("number") String num,
-                             @FormParam("key") String key)
-                                                  throws UnknownHostException
-    {
-        for (Phone phone : phoneList) 
-        {
-            if (phone.number.equals(num)) 
-            {
+                             @FormParam("key") String key) throws UnknownHostException {
+        for (Phone phone : phoneList) {
+            if (phone.number.equals(num)) {
                 Phone.Attempt user = phone.verify(key);
-                if (user != null)
-                {
+                if (user != null) {
                     DBCollection coll = connectDB().getCollection("users");
                     BasicDBObject query = new BasicDBObject();
                     query.put("_id", user.id);
@@ -119,20 +92,13 @@ public class UserResource
         }
     }
     
-    private DB connectDB() throws UnknownHostException
-    {
-        MongoClient mongo = new MongoClient( "localhost" , 27017 );
-        DB db = mongo.getDB("iote");
-        return db;
-    }
+
     
     /**
      * Takes in a string and checks for possible email or phone patterns
      * @param contact the string to be checked for
-     * @return the type of contact as a string
-     */
-    private String contactValidation(String contact)
-    {
+     * @return the type of contact as a string */
+    private String contactValidation(String contact) {
         String regex = ("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]"
                         + "+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
         Pattern pattern = Pattern.compile(regex);
@@ -140,16 +106,11 @@ public class UserResource
         regex = "[0-9]{8,10}";          //basic 8-10 digit number, subject to change
         pattern = Pattern.compile(regex);
         Matcher matcher2 = pattern.matcher(contact);
-        if (matcher.matches())
-        {
+        if (matcher.matches()) {
             return "email";
-        }
-        else if (matcher2.matches())
-        {
+        } else if (matcher2.matches()) {
             return "phone"; 
-        }
-        else
-        {
+        } else {
             return "invalid contact";
         }
     }
@@ -160,8 +121,7 @@ public class UserResource
      * @return the ObjectId of the newly added user
      * @throws UnknownHostException 
      */
-    private ObjectId javaToMongoId(User user) throws UnknownHostException
-    {
+    private ObjectId javaToMongoId(User user) throws UnknownHostException {
         Gson gson = new Gson();
         String json = gson.toJson(user);
         BasicDBObject object = new BasicDBObject("users", json);

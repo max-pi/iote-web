@@ -1,10 +1,13 @@
 package com.iote;
 
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import com.iote.resources.UserResource;
-import com.iote.health.TemplateHealthCheck;
+
+import java.net.UnknownHostException;
 
 public class WebApplication extends Application<WebConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -12,27 +15,16 @@ public class WebApplication extends Application<WebConfiguration> {
     }
 
     @Override
-    public String getName() {
-        return "hello-world";
-    }
+    public void run(WebConfiguration configuration, Environment environment) {
+        try {
+            MongoClient mongo = new MongoClient(configuration.getHostname(), configuration.getPort());
+            DB mongoDb = mongo.getDB(configuration.getDatabase());
 
-    @Override
-    public void initialize(Bootstrap<WebConfiguration> bootstrap) {
-        // nothing to do yet
-    }
+            final UserResource userResource = new UserResource(mongoDb);
+            environment.jersey().register(userResource);
 
-    @Override
-    public void run(WebConfiguration configuration,
-                    Environment environment) {
-        final UserResource resource = new UserResource(
-                configuration.getTemplate(),
-                this.getName()
-        );
-        final TemplateHealthCheck healthCheck =
-                new TemplateHealthCheck(configuration.getTemplate());
-        environment.healthChecks().register("template", healthCheck);
-        environment.jersey().register(resource);
-        
+        } catch (Exception e) {
+            // should terminate when this happens
+        }
     }
-
 }

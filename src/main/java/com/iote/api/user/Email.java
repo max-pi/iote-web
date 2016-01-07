@@ -7,8 +7,7 @@ import org.bson.types.ObjectId;
 
 
 @Data
-public class Email
-{
+public class Email {
     public final String email;
     
     private boolean confirmed;
@@ -20,19 +19,16 @@ public class Email
         this.email = "";
     }
     
-    public Email (String email, ObjectId id)
-    {
+    public Email (String email, ObjectId id) {
         this.email = email;
         this.attemptedUsers.add(this.new Attempt(id));
     }
     
-    public class Attempt
-    {
+    public class Attempt {
         ObjectId id;
         String key;
         
-        public Attempt (ObjectId id)
-        {
+        public Attempt (ObjectId id) {
             this.id = id;
             this.key = UUID.randomUUID().toString();
         }

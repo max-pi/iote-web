@@ -1,2 +1,4 @@
-template: Hello, %s!
-defaultName: Stranger
+
+hostname: localhost
+database: iote
+port: 27017

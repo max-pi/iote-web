@@ -19,18 +19,14 @@ public class Phone
         this.number = "";
     }
     
-    public Phone (String number, ObjectId id)
-    {
+    public Phone (String number, ObjectId id) {
         this.number = number;
         this.attemptedUsers.add(this.new Attempt(id));
     }
 
-    public Attempt verify (String key) 
-    {
-        for (Attempt user : attemptedUsers) 
-        {
-            if (user.key.equals(key)) 
-            {
+    public Attempt verify (String key) {
+        for (Attempt user : attemptedUsers) {
+            if (user.key.equals(key)) {
                 confirmed = true;
                 confirmedUser = user.id;
                 return user;
@@ -39,17 +35,13 @@ public class Phone
         return null;
     }
     
-    public class Attempt
-    {
+    public class Attempt {
         public ObjectId id;
         String key;
         
-        public Attempt (ObjectId id)
-        {
+        public Attempt (ObjectId id) {
             this.id = id;
             this.key = UUID.randomUUID().toString();
         }
     }
-    
-    
 }

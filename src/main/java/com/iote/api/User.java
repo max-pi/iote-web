@@ -8,8 +8,7 @@ import lombok.Builder;
 
 @Data
 @Builder
-public class User 
-{
+public class User {
     private final String  _id;
 
     private final String password;
