@@ -8,6 +8,7 @@ import com.iote.api.user.Phone.Attempt;
 import com.google.common.base.Optional;
 import com.codahale.metrics.annotation.Timed;
 import com.google.gson.Gson;
+
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -22,6 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
+
 import org.bson.types.ObjectId;
 
 
@@ -30,6 +32,7 @@ import org.bson.types.ObjectId;
 public class UserResource {
 
     private DB mongoDb;
+
     public UserResource(DB mongoDb) { // initializing user resource
         this.mongoDb = mongoDb;
     }
@@ -57,14 +60,14 @@ public class UserResource {
                 boolean exist = false;
                 for (Phone phone : phoneList) {
                     if (phone.number.equals(contact)) {
-                      exist = true;
-                      phone.attemptedUsers.add(phone.new Attempt(id));
-                      break;
+                        exist = true;
+                        phone.attemptedUsers.add(phone.new Attempt(id));
+                        break;
                     }
                 }
                 if (!exist) {
                     Phone attempt = new Phone(contact, id);
-                } 
+                }
                 break;
             }
             default: {
@@ -73,7 +76,7 @@ public class UserResource {
             }
         }
     }
-    
+
     @Path("/verify")
     @POST
     public void verification(@FormParam("number") String num,
@@ -91,16 +94,17 @@ public class UserResource {
             }
         }
     }
-    
 
-    
+
     /**
      * Takes in a string and checks for possible email or phone patterns
+     *
      * @param contact the string to be checked for
-     * @return the type of contact as a string */
+     * @return the type of contact as a string
+     */
     private String contactValidation(String contact) {
         String regex = ("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]"
-                        + "+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
+                + "+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$");
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(contact);
         regex = "[0-9]{8,10}";          //basic 8-10 digit number, subject to change
@@ -109,17 +113,18 @@ public class UserResource {
         if (matcher.matches()) {
             return "email";
         } else if (matcher2.matches()) {
-            return "phone"; 
+            return "phone";
         } else {
             return "invalid contact";
         }
     }
-    
+
     /**
      * Saves a user object into mongodb and returns its id
+     *
      * @param user the user to be added
      * @return the ObjectId of the newly added user
-     * @throws UnknownHostException 
+     * @throws UnknownHostException
      */
     private ObjectId javaToMongoId(User user) throws UnknownHostException {
         Gson gson = new Gson();
@@ -128,7 +133,7 @@ public class UserResource {
         DB db = connectDB();
         DBCollection coll = db.getCollection("users");
         coll.insert(object);
-        ObjectId id = (ObjectId) object.get( "_id" );
+        ObjectId id = (ObjectId) object.get("_id");
         return id;
     }
 }
