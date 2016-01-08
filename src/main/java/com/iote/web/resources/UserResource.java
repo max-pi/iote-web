@@ -1,5 +1,6 @@
 package com.iote.web.resources;
 
+import com.iote.web.db.UserDao;
 import com.mongodb.*;
 import com.iote.web.core.User;
 import com.google.gson.Gson;
@@ -23,10 +24,10 @@ import org.bson.types.ObjectId;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private DB mongoDb;
+    private UserDao userDao;
 
-    public UserResource(DB mongoDb) { // initializing user resource
-        this.mongoDb = mongoDb;
+    public UserResource(UserDao userDao) { // initializing user resource
+        this.userDao = userDao;
     }
 
     @GET
@@ -136,8 +137,8 @@ public class UserResource {
         Gson gson = new Gson();
         String json = gson.toJson(user);
         BasicDBObject object = new BasicDBObject("users", json);
-        DBCollection coll = this.mongoDb.getCollection("users");
-        coll.insert(object);
+        //DBCollection coll = this.userDao.getCollection("users");
+        //coll.insert(object);
         ObjectId id = (ObjectId) object.get("_id");
         return id;
     }

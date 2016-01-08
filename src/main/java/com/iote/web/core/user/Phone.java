@@ -1,4 +1,4 @@
-package com.iote.web.api.user;
+package com.iote.web.core.user;
 
 import java.util.List;
 import lombok.Data;

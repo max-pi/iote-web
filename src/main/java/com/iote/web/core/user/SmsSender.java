@@ -1,5 +1,5 @@
 
-package com.iote.web.api.user;
+package com.iote.web.core.user;
 
 import com.twilio.sdk.resource.instance.Account;
 import com.twilio.sdk.TwilioRestClient;

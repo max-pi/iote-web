@@ -11,4 +11,5 @@ public class WebConfiguration extends Configuration {
     private String hostname;
     private String database;
     private Integer port;
+
 }
