@@ -1,13 +1,14 @@
-package com.iote;
+package com.iote.web;
 
+import com.iote.web.core.User;
+import com.iote.web.auth.WebAuthenticator;
 import com.mongodb.DB;
 import com.mongodb.MongoClient;
 import io.dropwizard.Application;
-import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.auth.AuthDynamicFeature;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.setup.Environment;
-import com.iote.resources.UserResource;
-
-import java.net.UnknownHostException;
+import com.iote.web.resources.UserResource;
 
 public class WebApplication extends Application<WebConfiguration> {
     public static void main(String[] args) throws Exception {
@@ -19,6 +20,14 @@ public class WebApplication extends Application<WebConfiguration> {
         try {
             MongoClient mongo = new MongoClient(configuration.getHostname(), configuration.getPort());
             DB mongoDb = mongo.getDB(configuration.getDatabase());
+
+            environment.jersey().register(
+                    new AuthDynamicFeature(
+                          new BasicCredentialAuthFilter.Builder<User>()
+                                  .setAuthenticator(new WebAuthenticator())
+                                  .buildAuthFilter()
+                    )
+            );
 
             final UserResource userResource = new UserResource(mongoDb);
             environment.jersey().register(userResource);

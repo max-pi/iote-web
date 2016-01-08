@@ -1,4 +1,4 @@
-package com.iote.health;
+package com.iote.web.health;
 
 import com.codahale.metrics.health.HealthCheck;
 

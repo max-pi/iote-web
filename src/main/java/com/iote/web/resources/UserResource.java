@@ -1,24 +1,16 @@
-package com.iote.resources;
+package com.iote.web.resources;
 
 import com.mongodb.*;
-import com.iote.api.User;
-import com.iote.api.user.Email;
-import com.iote.api.user.Phone;
-import com.iote.api.user.Phone.Attempt;
-import com.google.common.base.Optional;
-import com.codahale.metrics.annotation.Timed;
+import com.iote.web.core.User;
 import com.google.gson.Gson;
 
 import java.net.UnknownHostException;
-import java.util.List;
 
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.ws.rs.FormParam;

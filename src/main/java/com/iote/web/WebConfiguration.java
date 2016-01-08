@@ -1,4 +1,4 @@
-package com.iote;
+package com.iote.web;
 
 import io.dropwizard.Configuration;
 import com.fasterxml.jackson.annotation.JsonProperty;
