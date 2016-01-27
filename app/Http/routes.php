@@ -12,7 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
+});
+
+Route::group(['prefix' => 'v1'], function() {
+	Route::controller('user', 'V1\UserController');
 });
 
 /*
@@ -27,5 +31,5 @@ Route::get('/', function () {
 */
 
 Route::group(['middleware' => ['web']], function () {
-    //
+	//
 });
