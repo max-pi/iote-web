@@ -1,4 +1,4 @@
-package com.iote.web.api;
+package com.iote.web.core;
 
 import lombok.Data;
 

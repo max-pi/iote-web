@@ -1,6 +1,7 @@
 package com.iote.web.core;
 
-import com.iote.web.api.Beacon;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.mongodb.DBObject;
 import lombok.Data;
 
 import java.security.Principal;
@@ -13,7 +14,6 @@ public class User implements Principal {
     private final String  _id;
 
     private final String name;
-
     private final String password;
     private final List<String> emails;
     private final List<String> phones;

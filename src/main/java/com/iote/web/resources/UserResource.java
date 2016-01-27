@@ -1,6 +1,5 @@
 package com.iote.web.resources;
 
-import com.iote.web.db.UserDao;
 import com.mongodb.*;
 import com.iote.web.core.User;
 import com.google.gson.Gson;
@@ -17,6 +16,7 @@ import java.util.regex.Pattern;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 
+import io.dropwizard.auth.Auth;
 import org.bson.types.ObjectId;
 
 
@@ -24,10 +24,10 @@ import org.bson.types.ObjectId;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserResource {
 
-    private UserDao userDao;
+    private DB mongod;
 
-    public UserResource(UserDao userDao) { // initializing user resource
-        this.userDao = userDao;
+    public UserResource(DB mongod) { // initializing user resource
+        this.mongod = mongod;
     }
 
     @GET
@@ -40,8 +40,8 @@ public class UserResource {
     @GET
     @Path("/active")
     // Returns the active user if one exists by Basic Access Authentication
-    public User getActive() throws UnknownHostException {
-        return User.builder()._id("ok buddy this is ID").password("yes").build();
+    public User getActive(@Auth User user) throws UnknownHostException {
+        return user;
     }
 
     @POST

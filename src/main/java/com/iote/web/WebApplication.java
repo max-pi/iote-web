@@ -1,11 +1,9 @@
 package com.iote.web;
 
-import com.iote.web.api.Beacon;
-import com.iote.web.auth.WebAuthorizer;
 import com.iote.web.core.User;
 import com.iote.web.auth.WebAuthenticator;
-import com.iote.web.db.BeaconDao;
-import com.iote.web.db.UserDao;
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
@@ -19,21 +17,25 @@ public class WebApplication extends Application<WebConfiguration> {
 
     @Override
     public void run(WebConfiguration configuration, Environment environment) {
-        final UserDao userDao = new UserDao(configuration);
-        final BeaconDao beaconDao = new BeaconDao(configuration);
+        try {
+            DB mongod =  new MongoClient(
+                    configuration.getHostname(),
+                    configuration.getPort()
+            ).getDB(configuration.getDatabase());
 
-        environment.jersey().register(
-                new AuthDynamicFeature(
-                        new BasicCredentialAuthFilter.Builder<User>()
-                                .setAuthenticator(new WebAuthenticator())
-                                .setAuthorizer(new WebAuthorizer())
-                                .setRealm("SUPER SECRET STUFF")
-                                .buildAuthFilter()
-                )
-        );
 
-        final UserResource userResource = new UserResource(userDao);
-        environment.jersey().register(userResource);
+            environment.jersey().register(
+                    new AuthDynamicFeature(
+                            new BasicCredentialAuthFilter.Builder<User>()
+                                    .setAuthenticator(new WebAuthenticator(mongod))
+                                    .buildAuthFilter()
+                    )
+            );
 
+            UserResource userResource = new UserResource(mongod);
+            environment.jersey().register(userResource);
+        } catch (Exception e) {
+            // do nothing for now
+        }
     }
 }
