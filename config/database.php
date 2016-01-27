@@ -26,7 +26,7 @@ return [
 	|
 	*/
 
-	'default' => env('DB_CONNECTION', 'mongodb'),
+	'default' => 'mongodb',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -51,7 +51,7 @@ return [
 			'driver'   => 'mongodb',
 			'host'     => env('DB_HOST', 'localhost'),
 			'port'     => env('DB_PORT', 27017),
-			'database' => env('DB_DATABASE', ''),
+			'database' => env('DB_DATABASE', 'iote'),
 			'username' => env('DB_USERNAME', ''),
 			'password' => env('DB_PASSWORD', ''),
 			'options'  => array(
