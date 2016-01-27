@@ -151,12 +151,8 @@ return [
 		/*
 		 * Application Service Providers...
 		 */
-		Iote\Providers\AppServiceProvider::class,
-		Iote\Providers\AuthServiceProvider::class,
-		Iote\Providers\EventServiceProvider::class,
 		Iote\Providers\RouteServiceProvider::class,
 		Jenssegers\Mongodb\MongodbServiceProvider::class,
-
 	],
 
 	/*

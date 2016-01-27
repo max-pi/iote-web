@@ -5,8 +5,7 @@ namespace Iote\Providers;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
-class RouteServiceProvider extends ServiceProvider
-{
+class RouteServiceProvider extends ServiceProvider {
 	/**
 	 * This namespace is applied to the controller routes in your routes file.
 	 *
@@ -22,8 +21,7 @@ class RouteServiceProvider extends ServiceProvider
 	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function boot(Router $router)
-	{
+	public function boot(Router $router) {
 		//
 
 		parent::boot($router);
@@ -35,8 +33,7 @@ class RouteServiceProvider extends ServiceProvider
 	 * @param  \Illuminate\Routing\Router  $router
 	 * @return void
 	 */
-	public function map(Router $router)
-	{
+	public function map(Router $router)	{
 		$router->group(['namespace' => $this->namespace], function ($router) {
 			require app_path('Http/routes.php');
 		});
