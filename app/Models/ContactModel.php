@@ -13,11 +13,11 @@ class ContactModel extends BaseModel {
 	}
 
 	public static function isPhone($string) {
-		$characters = explode('', $string);
-
 		if (8 < strlen($string) || strlen($string) > 15) {
 			return false;
 		}
+
+		$characters = explode('', $string);
 
 		if ($characters[0] != '+') {
 			return false;
