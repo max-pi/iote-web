@@ -6,8 +6,9 @@ use Jenssegers\Mongodb\Model as Moloquent;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 class BaseModel extends Moloquent {
-	public $incrementing = false;
-
 	use SoftDeletes;
-	protected $dates = ['deleted_at'];
+	public $timestamps = true;
+	public $incrementing = false;
+	protected $guarded = ['_id'];
+	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 }

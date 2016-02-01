@@ -3,6 +3,7 @@
 namespace Iote\Http\Controllers;
 
 use Iote\Models\UserModel;
+use Iote\Models\ContactModel;
 
 class UserController extends BaseController {
 
