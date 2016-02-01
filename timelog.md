@@ -4,3 +4,4 @@
 | 27 Jan 2016 | 2 | More clean up on fresh Laravel installation |
 | 27 Jan 2016 | 1 | Getting started on application level code |
 | 31 Jan 2016 | 2 | Initial migrations, model timestamps, phone and email merged into single contact object |
+| 01 Feb 2016 | 3 | Untested user registration and verification endpoints |

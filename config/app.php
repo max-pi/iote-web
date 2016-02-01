@@ -152,6 +152,7 @@ return [
 		 * Application Service Providers...
 		 */
 		Iote\Providers\RouteServiceProvider::class,
+		Iote\Providers\ValidationServiceProvider::class,
 		Jenssegers\Mongodb\MongodbServiceProvider::class,
 	],
 
