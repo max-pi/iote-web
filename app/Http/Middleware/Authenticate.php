@@ -2,11 +2,14 @@
 
 namespace Iote\Http\Middleware;
 
+use Hash;
 use Closure;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class Authenticate
-{
+use Iote\Models\UserModel;
+use Iote\Models\ContactModel;
+
+class Authenticate {
 	/**
 	 * Handle an incoming request.
 	 *
@@ -15,13 +18,20 @@ class Authenticate
 	 * @param  string|null  $guard
 	 * @return mixed
 	 */
-	public function handle($request, Closure $next, $guard = null)
-	{
-		if (Auth::guard($guard)->guest()) {
-			if ($request->ajax() || $request->wantsJson()) {
-				return response('Unauthorized.', 401);
-			} else {
-				return redirect()->guest('login');
+	public function handle(Request $request, Closure $next, $guard = null) {
+		$username = $request->headers->get('php-auth-user');
+		$password = $request->headers->get('php-auth-pw');
+
+		$user = null;
+		if (ContactModel::isEmail($username)) {
+			$user = UserModel::where('emails', $username)->first();
+		} elseif (ContactModel::isPhone($username)) {
+			$user = UserModel::where('phones', $username)->first();
+		}
+
+		if (!is_null($user)) {
+			if (Hash::check($password, $user->password)) {
+				$request->session()->put('user', $user);
 			}
 		}
 

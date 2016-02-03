@@ -3,6 +3,7 @@
 namespace Iote\Exceptions;
 
 use Exception;
+use Iote\Http\Controllers\BaseController;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -42,6 +43,16 @@ class Handler extends ExceptionHandler {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function render($request, Exception $e) {
+		if($this->isHttpException($e)) {
+			switch ($e->getStatusCode()) {
+				case 404: // not found
+					return (new BaseController)->makeError("Endpoint not found", 404);
+					break;
+				default:
+					return $this->renderHttpException($e);
+					break;
+			}
+		}
 		return parent::render($request, $e);
 	}
 }

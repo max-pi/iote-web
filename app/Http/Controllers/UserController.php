@@ -14,14 +14,27 @@ class UserController extends BaseController {
 	 * Returns active user if no query params are specified
 	 * 	Allowable query params are `id`, `contact` */
 	public function getIndex(Request $request) { // AUTHENTICATION REQUIRED
-		$user = UserModel::create(['password' => "ajajajajaj"]);
+		if (is_null($this->user)) {
+			return $this->makeUnauthorized();
+		}
 
-		$contact = ContactModel::create(['contact' => "cheongwillie@gmail.com"]);
-		$contact->recordUserAttempt('newUsersIdIsgood');
+		$id = $request->input('id');
+		if (!is_null($id)) {
+			return $this->makeSuccess("User with specified id", UserModel::find($id));
+		}
 
-		return $this->makeSuccess(
-			"OK", $contact
-		);
+		$contact = $request->input('contact');
+		if (!is_null($contact)) {
+			if (ContactModel::isEmail($contact)) {
+				return $this->makeSuccess("User with specified email", UserModel::where('emails', $contact)->first());
+			}
+
+			if (ContactModel::isPhone($contact)) {
+				return $this->makeSuccess("User with specified phone", UserModel::where('phones', $contact)->first());
+			}
+		}
+
+		return $this->makeSuccess("Currently active user", $this->user);
 	}
 
 	/*********************************

@@ -2,7 +2,7 @@
 
 namespace Iote\Models;
 
-use \Hash;
+use Hash;
 
 class UserModel extends BaseModel {
 	protected $collection = 'users';
@@ -12,7 +12,6 @@ class UserModel extends BaseModel {
 		$array = parent::toArray();
 		$array['emails'] = $this->emails;
 		$array['phones'] = $this->phones;
-		$array['password'] = $this->password;
 		$array['metadata'] = $this->metadata;
 		return $array;
 	}

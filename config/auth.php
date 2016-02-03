@@ -67,7 +67,7 @@ return [
 	'providers' => [
 		'users' => [
 			'driver' => 'eloquent',
-			'model' => Iote\User::class,
+			'model' => Iote\Models\UserModel::class,
 		],
 
 		// 'users' => [
