@@ -80,8 +80,8 @@ class UserController extends BaseController {
 		$input['contact'] = $request->input('contact');
 		$rules['contact'] = 'required|ephone';
 
-		$input['password'] = $request->input('password');
-		$rules['password'] = 'required|string|alpha_num|min:8';
+		$input['code'] = $request->input('code');
+		$rules['code'] = 'required|string';
 
 		$validator = Validator::make($input, $rules);
 		if ($validator->fails()) {
