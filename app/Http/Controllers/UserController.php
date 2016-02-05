@@ -73,6 +73,40 @@ class UserController extends BaseController {
 	}
 
 	/*********************************
+	 * Resends verification mail for a contact
+	 * 	Required params are `contact` and `user` */
+	public function postResendVerificationCode() { // AUTHENTICATION OPTIONAL
+		$input = array(); $rules = array();
+		$input['contact'] = $request->input('contact');
+		$rules['contact'] = 'required|ephone';
+
+		$input['user'] = $request->input('user');
+		$rules['user'] = 'required|string';
+
+		$validator = Validator::make($input, $rules);
+		if ($validator->fails()) {
+			$messages = $validator->messages()->all();
+			return $this->makeError($messages[0]);
+		}
+
+		$contact = ContactModel::where('contact', $input['contact'])->first();
+		$matchingAttempt = null;
+		foreach ($contact->attempts as $attempt) {
+			if ($attempt['user'] == $input['user']) {
+				$matchingAttempt = $attempt;
+				break;
+			}
+		}
+
+		if (is_null($matchingAttempt)) {
+			return $this->makeUnauthorized();
+		}
+
+		$contact->sendVerificationMail($matchingAttempt['code']);
+		return $this->makeSuccess("Verification code sent successfully");
+	}
+
+	/*********************************
 	 * Confirms an email or phone record for a user
 	 * 	Required params are `contact` and `code` */
 	public function postVerify() { // AUTHENTICATION OPTIONAL

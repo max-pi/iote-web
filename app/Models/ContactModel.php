@@ -51,7 +51,34 @@ class ContactModel extends BaseModel {
 			'user' => $userId,
 		]);
 
-		// execute scripts for sending verification mail
+		$this->sendVerificationMail($code);
+	}
+
+	public function sendVerificationMail($code) {
+		if ($this->is_email) {
+			$params = array(
+				'code' => $code,
+				'email' => $this->contact,
+				'name' => explode('@', $this->contact)[0]
+			);
+
+			try { // use built-in laravel mail client
+				Mail::send('emails.verification', array(
+					'params' => $params
+				), function($message) use ($params) {
+					$message->to($params['email'], $params['name'])
+							->subject('IOTE - Verification Code');
+				});
+			} catch (Exception $e) {
+				// Might want to log this error in future
+			}
+
+		} elseif ($this->is_phone) {
+			try { // use aloha twilio api package
+			} catch (Exception $e) {
+				// Might want to log this error in future
+			}
+		}
 	}
 
 	public function retrieveUserIdByAttemptCode($code, $lockOnSuccess = false) {
