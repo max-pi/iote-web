@@ -41,7 +41,25 @@ class UserController extends BaseController {
 	 * Starts process for adding contact to current user
 	 * 	Required params are `contact` */
 	public function postContact() { // AUTHENTICATION REQUIRED
-		return $this->makeSuccess("sending verification messages");
+		if (is_null($this->user)) {
+			return $this->makeUnauthorized();
+		}
+
+		$input = array(); $rules = array();
+		$input['contact'] = $request->input('contact');
+		$rules['contact'] = 'required|ephone';
+
+		$validator = Validator::make($input, $rules);
+		if ($validator->fails()) {
+			$messages = $validator->messages()->all();
+			return $this->makeError($messages[0]);
+		}
+
+		$contact = ContactModel::firstOrCreate([
+			'contact' => $input['contact']
+		])->recordUserAttempt($this->user->_id);
+
+		return $this->makeSuccess("Contact registered for user with pending verification", $this->user);
 	}
 
 	/*********************************

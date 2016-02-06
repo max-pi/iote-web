@@ -2,6 +2,9 @@
 
 namespace Iote\Models;
 
+use Mail;
+use Aloha\Twilio\Twilio;
+
 class ContactModel extends BaseModel {
 	protected $collection = 'contacts';
 
@@ -75,6 +78,10 @@ class ContactModel extends BaseModel {
 
 		} elseif ($this->is_phone) {
 			try { // use aloha twilio api package
+				$message = "Ahoy from IOTE! "
+							."Enter ".$code." on the in-app prompt "
+							."to verify this phone number on your account.";
+				Twilio::message($this->contact, $message);
 			} catch (Exception $e) {
 				// Might want to log this error in future
 			}

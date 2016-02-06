@@ -154,6 +154,7 @@ return [
 		Iote\Providers\RouteServiceProvider::class,
 		Iote\Providers\ValidationServiceProvider::class,
 		Jenssegers\Mongodb\MongodbServiceProvider::class,
+		Aloha\Twilio\Support\Laravel\ServiceProvider::class,
 	],
 
 	/*
