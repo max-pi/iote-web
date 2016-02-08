@@ -10,7 +10,7 @@
 			<strong><?= $params['code'] ?></strong>
 		</p>
 		<p>
-			Be sure to let us know if you believe that someone is trying to claim ownership of this email address on IOTE.
+			Let us know immediately if you believe someone is trying to claim ownership of this email address.
 		</p>
 		<p>
 			Happy tracking!<br>
