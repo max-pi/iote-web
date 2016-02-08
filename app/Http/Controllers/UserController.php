@@ -40,7 +40,7 @@ class UserController extends BaseController {
 	/*********************************
 	 * Starts process for adding contact to current user
 	 * 	Required params are `contact` */
-	public function postContact() { // AUTHENTICATION REQUIRED
+	public function postContact(Request $request) { // AUTHENTICATION REQUIRED
 		if (is_null($this->user)) {
 			return $this->makeUnauthorized();
 		}
@@ -105,7 +105,7 @@ class UserController extends BaseController {
 	/*********************************
 	 * Resends verification mail for a contact
 	 * 	Required params are `contact` and `user` */
-	public function postResendVerificationCode() { // AUTHENTICATION OPTIONAL
+	public function postResendVerificationCode(Request $request) { // AUTHENTICATION OPTIONAL
 		$input = array(); $rules = array();
 		$input['contact'] = $request->input('contact');
 		$rules['contact'] = 'required|ephone';
@@ -147,7 +147,7 @@ class UserController extends BaseController {
 	/*********************************
 	 * Confirms an email or phone record for a user
 	 * 	Required params are `contact` and `code` */
-	public function postVerify() { // AUTHENTICATION OPTIONAL
+	public function postVerify(Request $request) { // AUTHENTICATION OPTIONAL
 		$input = array(); $rules = array();
 		$input['contact'] = $request->input('contact');
 		$rules['contact'] = 'required|ephone';

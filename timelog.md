@@ -10,3 +10,4 @@
 | 05 Feb 2016 | 3 | Getting started with email and twilio integration |
 | 05 Feb 2016 | 2 | Setup twilio configs and basic verification texts |
 | 08 Feb 2016 | 1 | Stronger contact validation on user endpoints |
+| 08 Feb 2016 | 2 | Running through the flow of user registration and verification |

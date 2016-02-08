@@ -3,6 +3,7 @@
 namespace Iote\Exceptions;
 
 use Exception;
+use Illuminate\Http\Response;
 use Iote\Http\Controllers\BaseController;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -46,7 +47,9 @@ class Handler extends ExceptionHandler {
 		if($this->isHttpException($e)) {
 			switch ($e->getStatusCode()) {
 				case 404: // not found
-					return (new BaseController)->makeError("Endpoint not found", 404);
+					$response = new Response(['message'=>"Endpoint not found"], 404);
+					$response->header('Content-Type', 'application/json');
+					return $response;
 					break;
 				default:
 					return $this->renderHttpException($e);

@@ -3,7 +3,7 @@
 namespace Iote\Models;
 
 use Mail;
-use Aloha\Twilio\Twilio;
+use Twilio;
 
 class ContactModel extends BaseModel {
 	protected $collection = 'contacts';
