@@ -9,3 +9,4 @@
 | 02 Feb 2016 | 6 | Middleware to receive and interprete `Authorization: Basic <username:password in base64 encoding>` header for user authentication |
 | 05 Feb 2016 | 3 | Getting started with email and twilio integration |
 | 05 Feb 2016 | 2 | Setup twilio configs and basic verification texts |
+| 08 Feb 2016 | 1 | Stronger contact validation on user endpoints |

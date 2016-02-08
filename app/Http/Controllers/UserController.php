@@ -57,7 +57,13 @@ class UserController extends BaseController {
 
 		$contact = ContactModel::firstOrCreate([
 			'contact' => $input['contact']
-		])->recordUserAttempt($this->user->_id);
+		]);
+
+		if ($contact->confirmed) {
+			return $this->makeError("Contact is already registered to an account");
+		}
+
+		$contact->recordUserAttempt($this->user->_id);
 
 		return $this->makeSuccess("Contact registered for user with pending verification", $this->user);
 	}
@@ -79,13 +85,19 @@ class UserController extends BaseController {
 			return $this->makeError($messages[0]);
 		}
 
+		$contact = ContactModel::firstOrCreate([
+			'contact' => $input['contact']
+		]);
+
+		if ($contact->confirmed) {
+			return $this->makeError("Contact already registered to an account");
+		}
+
 		$user = UserModel::create([
 			'password' => $input['password']
 		]);
 
-		$contact = ContactModel::firstOrCreate([
-			'contact' => $input['contact']
-		])->recordUserAttempt($user->_id);
+		$contact->recordUserAttempt($user->_id);
 
 		return $this->makeSuccess("User registered successfully with pending verification", $user);
 	}
@@ -108,6 +120,14 @@ class UserController extends BaseController {
 		}
 
 		$contact = ContactModel::where('contact', $input['contact'])->first();
+		if (is_null($contact)) {
+			return $this->makeError("Contact does not exist");
+		}
+
+		if ($contact->confirmed) {
+			return $this->makeError("Contact already registered to an account");
+		}
+
 		$matchingAttempt = null;
 		foreach ($contact->attempts as $attempt) {
 			if ($attempt['user'] == $input['user']) {
@@ -143,7 +163,11 @@ class UserController extends BaseController {
 
 		$contact = ContactModel::where('contact', $input['contact'])->first();
 		if (is_null($contact)) {
-			return $this->makeError("Specified contact to verify does not exist");
+			return $this->makeError("Contact does not exist");
+		}
+
+		if ($contact->confirmed) {
+			return $this->makeError("Contact already registered to an account");
 		}
 
 		$userId = $contact->retrieveUserIdByAttemptCode($input['code'], true);
@@ -152,6 +176,10 @@ class UserController extends BaseController {
 		}
 
 		$user = UserModel::find($userId);
+		if (is_null($user)) {
+			return $this->makeError("Specified code does not belong to a valid user");
+		}
+
 		if ($contact->is_email) {
 			$user->push('emails', $contact->contact);
 		}
