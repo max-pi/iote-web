@@ -7,6 +7,10 @@ The database should be safe as long as the droplet is secure
 - take out the `bind_ip` config to enable remote access
 
 
+** Used to list collections from bash **
+- echo "db.getCollectionNames()" | mongo iote
+
+
 ** Counting a collection from bash **
 - echo "db.users.count()" | mongo iote
 
