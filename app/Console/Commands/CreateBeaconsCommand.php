@@ -42,7 +42,7 @@ class CreateBeaconsCommand extends Command {
 		]);
 
 		$bar->advance();
-		$this->line("Batch [".$batch->_id."] initialized");
+		$this->line(" Initialized batch [".$batch->_id."]");
 
 		for ($i=0; $i < $input['size']; $i++) {
 			$beacon = BeaconModel::create([
@@ -58,14 +58,14 @@ class CreateBeaconsCommand extends Command {
 		}
 
 		$bar->advance();
-		$this->line("Finished creating [".count($beaconIds)."] beacon objects");
+		$this->line(" Finished creating [".count($beaconIds)."] beacon objects");
 
 		$batch->update([
 			'beacons' => $beaconIds
 		]);
 
 		$bar->advance();
-		$this->line("Batch object updated with the generated beaconIds");
+		$this->line(" Updated the batch object with generated beaconIds");
 
 		try { // use built-in laravel mail client
 			Mail::send('emails.batch_report', array(
@@ -76,14 +76,14 @@ class CreateBeaconsCommand extends Command {
 			});
 
 			$bar->advance();
-			$this->info("A batch report was sent to [".env('MAIL_ADDRESS')."]");
+			$this->info(" A batch report was sent to [".env('MAIL_ADDRESS')."]");
 
 		} catch (Exception $e) {
-			$this->line("Could not send the batch report to [".env('MAIL_ADDRESS')."]");
-			$this->line("Keep track of this batch ID to retrieve batch details using other methods");
+			$this->line(" Could not send the batch report to [".env('MAIL_ADDRESS')."]");
+			$this->line(" Keep track of this batch ID to retrieve batch details using other methods");
 		}
 
 		$bar->finish();
-		return $this->info("Successfully created [".count($beaconIds)."] beacons for batch [".$batch->_id."]");
+		return $this->info(" Successfully created [".count($beaconIds)."] beacons for batch [".$batch->_id."]");
 	}
 }
