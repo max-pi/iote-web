@@ -1,20 +1,18 @@
 ## For taking notes and references
 
-
-Mongo cannot be accessed remotely from outside the droplet
+Mongo cannot be accessed remotely from outside the droplet  
 The database should be safe as long as the droplet is secure
 - vim /etc/mongodb.conf
 - take out the `bind_ip` config to enable remote access
 
-
-** Used to list collections from bash **
+**Used to list collections from bash**
 - echo "db.getCollectionNames()" | mongo iote
 
 
-** Counting a collection from bash **
+**Counting a collection from bash**
 - echo "db.users.count()" | mongo iote
 
 
-** Used to wipe mongodb from bash **
+**Used to wipe mongodb from bash**
 - echo "db.dropDatabase()" | mongo iote
 
