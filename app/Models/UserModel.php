@@ -12,6 +12,7 @@ class UserModel extends BaseModel {
 		$array = parent::toArray();
 		$array['emails'] = $this->emails;
 		$array['phones'] = $this->phones;
+		$array['beacons'] = $this->beacons;
 		$array['metadata'] = $this->metadata;
 		return $array;
 	}
@@ -21,6 +22,10 @@ class UserModel extends BaseModel {
 	}
 
 	public function getPhonesAttribute($attr) {
+		return $attr ?: [];
+	}
+
+	public function getBeaconsAttribute($attr) {
 		return $attr ?: [];
 	}
 

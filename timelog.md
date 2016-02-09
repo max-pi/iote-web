@@ -12,3 +12,4 @@
 | 08 Feb 2016 | 1 | Stronger contact validation on user endpoints |
 | 08 Feb 2016 | 2 | Running through the flow of user registration and verification |
 | 08 Feb 2016 | 1 | Server setup for mongo client and connection |
+| 09 Feb 2016 | 5 | Command line tool for generating beacons in batches |
