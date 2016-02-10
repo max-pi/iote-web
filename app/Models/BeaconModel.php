@@ -27,8 +27,11 @@ class BeaconModel extends BaseModel {
 			return false;
 		}
 
-		$this->push('users', $user->_id);
-		$user->push('beacons', $this->_id);
+		if (!in_array($this->_id, $user->beacons)) {
+			$this->push('users', $user->_id);
+			$user->push('beacons', $this->_id);
+		}
+
 		return true;
 	}
 
