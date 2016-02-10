@@ -22,7 +22,8 @@
 			"database"
 		],
 		"psr-4": {
-			"Iote\\": "app/"
+			"Iote\\": "app/",
+			"Aloha\\Twilio": "vendor/aloha/twilio/src"
 		}
 	},
 	"autoload-dev": {
