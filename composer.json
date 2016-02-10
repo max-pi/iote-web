@@ -23,7 +23,7 @@
 		],
 		"psr-4": {
 			"Iote\\": "app/",
-			"Aloha\\Twilio": "vendor/aloha/twilio/src"
+			"Aloha\\Twilio": "vendor/aloha/twilio/src/"
 		}
 	},
 	"autoload-dev": {
