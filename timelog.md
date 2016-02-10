@@ -14,3 +14,4 @@
 | 08 Feb 2016 | 1 | Server setup for mongo client and connection |
 | 09 Feb 2016 | 5 | Command line tool for generating beacons in batches |
 | 09 Feb 2016 | 3 | Command line tool for removing beacons by batchIds |
+| 10 Feb 2016 | 1 | Minor refactoring and pushing completed user registration to production |
