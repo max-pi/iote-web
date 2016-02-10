@@ -68,7 +68,7 @@ class CreateBeaconsCommand extends Command {
 		$this->line(" Updated the batch object with generated beaconIds");
 
 		try { // use built-in laravel mail client
-			Mail::send('emails.batch_report', array(
+			Mail::send('emails.batch_created_report', array(
 				'batch' => $batch
 			), function($message) {
 				$message->to(env('MAIL_ADDRESS'), env('MAIL_NAME'))

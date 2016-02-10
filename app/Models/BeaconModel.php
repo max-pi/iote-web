@@ -31,4 +31,15 @@ class BeaconModel extends BaseModel {
 		$user->push('beacons', $this->_id);
 		return true;
 	}
+
+	public function detach($userId) {
+		$user = UserModel::find($userId);
+		if (is_null($user)) {
+			return false;
+		}
+
+		$this->pull('users', $user->_id);
+		$user->pull('beacons', $this->_id);
+		return true;
+	}
 }

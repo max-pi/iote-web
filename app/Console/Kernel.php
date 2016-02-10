@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected $commands = [
 		Commands\CreateBeaconsCommand::class,
+		Commands\RemoveBeaconsCommand::class,
 	];
 
 	/**

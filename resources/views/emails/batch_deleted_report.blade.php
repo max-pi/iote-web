@@ -2,7 +2,7 @@
 	<body>
 		<p>Hello,</p>
 		<p>
-			A batch of beacons was created.<br>
+			A batch of beacons was <strong>removed</strong>.<br>
 			Here are the results of the execution.
 		</p>
 		<p>
