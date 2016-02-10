@@ -22,14 +22,11 @@ class ContactModel extends BaseModel {
 	}
 
 	public function getAttemptsAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function getConfirmedAttribute() {
-		if (strlen($this->confirmed_user) > 2) {
-			return true;
-		}
-		return false;
+		return (strlen($this->confirmed_user) > 2);
 	}
 
 	public function getIsEmailAttribute() {

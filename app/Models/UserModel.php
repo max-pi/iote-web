@@ -18,19 +18,19 @@ class UserModel extends BaseModel {
 	}
 
 	public function getEmailsAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function getPhonesAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function getBeaconsAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function getMetadataAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function setPasswordAttribute($value) {

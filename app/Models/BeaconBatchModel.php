@@ -14,10 +14,10 @@ class BeaconBatchModel extends BaseModel {
 	}
 
 	public function getBeaconsAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function getMetadataAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 }

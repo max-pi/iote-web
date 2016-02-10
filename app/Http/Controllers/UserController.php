@@ -60,7 +60,7 @@ class UserController extends BaseController {
 		]);
 
 		if ($contact->confirmed) {
-			return $this->makeError("Contact is already registered to an account");
+			return $this->makeError("Contact already registered to an account");
 		}
 
 		$contact->recordUserAttempt($this->user->_id);

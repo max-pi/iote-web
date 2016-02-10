@@ -14,11 +14,11 @@ class BeaconModel extends BaseModel {
 	}
 
 	public function getUsersAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function getMetadataAttribute($attr) {
-		return $attr ?: [];
+		return BaseModel::castArray($attr);
 	}
 
 	public function attach($userId) {

@@ -25,4 +25,8 @@ class BaseModel extends Moloquent {
 			return Carbon::parse($attr)->toIso8601String();
 		}
 	}
+
+	public static function castArray($attr) {
+		return (is_array($attr)) ? $attr : [];
+	}
 }
