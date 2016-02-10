@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use Iote\Models\UserModel;
 use Iote\Models\ContactModel;
+use Iote\Models\BeaconModel;
 
 class UserController extends BaseController {
 
@@ -35,6 +36,75 @@ class UserController extends BaseController {
 		}
 
 		return $this->makeSuccess("Currently active user", $this->user);
+	}
+
+	/*********************************
+	 * Attaches metadata to the current user
+	 * 	Required param is `metadata`, an object that can be of any shape */
+	public function putIndex(Request $request) { // AUTHENTICATION REQUIRED
+		if (is_null($this->user)) {
+			return $this->makeUnauthorized();
+		}
+
+		$input = array(); $rules = array();
+		$input['metadata'] = $request->input('metadata');
+		$rules['metadata'] = 'required|array';
+
+		$validator = Validator::make($input, $rules);
+		if ($validator->fails()) {
+			$messages = $validator->messages()->all();
+			return $this->makeError($messages[0]);
+		}
+
+		$this->user->update($input);
+
+		return $this->makeSuccess("Metadata attached successfully to user", $this->user);
+	}
+
+	/*********************************
+	 * Attaches or detaches a beacon to the current user
+	 *  Endpoint should be trailed with either `/attach` or `detach`
+	 * 	Required param is `beacon`, the id of the beacon to work with */
+	public function putBeacon(Request $request, $action = null) { // AUTHENTICATION REQUIRED
+		if (is_null($this->user)) {
+			return $this->makeUnauthorized();
+		}
+
+		$input = array(); $rules = array();
+		$input['action'] = $action;
+		$rules['action'] = 'required|in:attach,detach';
+
+		$input['beacon'] = $request->input('beacon');
+		$rules['beacon'] = 'required|exists:beacons,_id';
+
+		$validator = Validator::make($input, $rules);
+		if ($validator->fails()) {
+			$messages = $validator->messages()->all();
+			return $this->makeError($messages[0]);
+		}
+
+		$beacon = BeaconModel::find($input['beacon']);
+		if (is_null($beacon)) {
+			return $this->makeError("Beacon does not exist");
+		}
+
+		if ($input['action'] == 'attach') {
+			if (in_array($beacon->_id, $this->user->beacons)) {
+				return $this->makeError("Beacon already belongs to user");
+			}
+			$beacon->attach($this->user->_id);
+			return $this->makeSuccess("Beacon attached successfully to user", $this->user);
+		}
+
+		if ($input['action'] == 'detach') {
+			if (!in_array($beacon->_id, $this->user->beacons)) {
+				return $this->makeError("Beacon does not belong to user");
+			}
+			$beacon->detach($this->user->_id);
+			return $this->makeSuccess("Beacon detached successfully from user", $this->user);
+		}
+
+		return $this->makeSuccess("Beacon was neither attached nor detached from user", $this->user);
 	}
 
 	/*********************************

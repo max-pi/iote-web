@@ -26,6 +26,9 @@ class BaseModel extends Moloquent {
 		}
 	}
 
+
+/* STATIC HELPER FUNCTIONS
+ *******************************************/
 	public static function castArray($attr) {
 		return (is_array($attr)) ? $attr : [];
 	}
