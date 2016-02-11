@@ -72,7 +72,7 @@ class UserController extends BaseController {
 		}
 
 		$input = array(); $rules = array();
-		$input['action'] = $action;
+		$input['action'] = strtolower($action);
 		$rules['action'] = 'required|in:attach,detach';
 
 		$input['beacon'] = $request->input('beacon');
