@@ -12,6 +12,7 @@ use Iote\Models\BeaconModel;
 class UserController extends BaseController {
 
 	/*********************************
+	 * Returns a list of users
 	 * Returns active user if no query params are specified
 	 * 	Allowable query params are `id`, `contact` */
 	public function getIndex(Request $request) { // AUTHENTICATION REQUIRED
@@ -21,21 +22,21 @@ class UserController extends BaseController {
 
 		$id = $request->input('id');
 		if (!is_null($id)) {
-			return $this->makeSuccess("User with specified id", UserModel::find($id));
+			return $this->makeSuccess("Users with specified id", UserModel::where('_id', $id)->get());
 		}
 
 		$contact = $request->input('contact');
 		if (!is_null($contact)) {
 			if (ContactModel::isEmail($contact)) {
-				return $this->makeSuccess("User with specified email", UserModel::where('emails', $contact)->first());
+				return $this->makeSuccess("Users with specified email", UserModel::where('emails', $contact)->get());
 			}
 
 			if (ContactModel::isPhone($contact)) {
-				return $this->makeSuccess("User with specified phone", UserModel::where('phones', $contact)->first());
+				return $this->makeSuccess("Users with specified phone", UserModel::where('phones', $contact)->get());
 			}
 		}
 
-		return $this->makeSuccess("Currently active user", $this->user);
+		return $this->makeSuccess("Currently active users", array($this->user));
 	}
 
 	/*********************************

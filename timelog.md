@@ -16,3 +16,4 @@
 | 09 Feb 2016 | 3 | Command line tool for removing beacons by batchIds |
 | 10 Feb 2016 | 1 | Minor refactoring and pushing completed user registration to production |
 | 10 Feb 2016 | 2 | Endpoint for updating user metadata. Also endpoints for attaching and detaching beacons to user |
+| 11 Feb 2016 | 2 | Getting started with beacon resource, retrievals by `id`, `batch`, `deleted` |

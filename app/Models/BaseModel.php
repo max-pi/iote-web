@@ -10,6 +10,7 @@ class BaseModel extends Moloquent {
 	use SoftDeletes;
 	public $timestamps = true;
 	public $incrementing = false;
+	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 	protected $guarded = ['_id'];
 
 	public function getCreatedAtAttribute($attr) {
