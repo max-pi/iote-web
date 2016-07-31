@@ -16,7 +16,7 @@ iote-web
 #### User Authentication
 
 - The back-end uses Basic Access Authentication to identify users
-- [https://en.wikipedia.org/wiki/Basic_access_authentication](Reference link to Basic Access Auth here)
+- [Reference link to Basic Access Auth here](https://en.wikipedia.org/wiki/Basic_access_authentication)
 
 #### API Responses
 
