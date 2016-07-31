@@ -19,4 +19,4 @@
 | 11 Feb 2016 | 2 | Getting started with beacon resource, retrievals by `id`, `batch`, `deleted` |
 | 16 Feb 2016 | 2 | Deployment onto production servers, debugging strange gmail blacklist issue |
 | 22 Feb 2016 | - | Received payment of $1125 for 45 hours via Chase  |
-| 30 Jul 2016 | 5 | Endpoint for storing reported beacon-location pings, client authentication via middleware, and REST API documentation  |
+| 30 Jul 2016 | 6 | Endpoint for storing reported beacon-location pings, client authentication via middleware, and REST API documentation  |

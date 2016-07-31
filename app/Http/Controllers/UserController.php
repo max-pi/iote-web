@@ -36,7 +36,7 @@ class UserController extends BaseController {
 			}
 		}
 
-		return $this->makeSuccess("Currently active users", array($this->user));
+		return $this->makeSuccess("This currently active user", array($this->user));
 	}
 
 	/*********************************

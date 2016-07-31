@@ -6,6 +6,49 @@ iote-web
 	- Do whatever you please on this dummy site
 
 ## API - Version 1
+#### Client Access
+
+- Every request to the API backend must be accompanied by a client token
+- This should make it at least a little harder for hackers to spoof requests
+- To do this, attach a header with the key of `X-Iote-Client-Token` to the request
+- Ask someone like *max-pi* for the actual token value to attach to this header
+
+#### User Authentication
+
+- The back-end uses Basic Access Authentication to identify users
+- [https://en.wikipedia.org/wiki/Basic_access_authentication](Reference link to Basic Access Auth here)
+
+#### API Responses
+
+- Failed requests will return with 4xx status codes as usual
+- Successful requests will return with 2xx status codes as usual
+- All requests should always return a readable message explaining the result
+- The expected data will always be returned through the `response` property
+- An example of a response from searching for a user can be found here:
+```json
+{
+	"message": "This currently active user",
+	"response": [
+		{
+			"_id": "56b8f29a6961e283030041a8",
+			"updated_at": "2016-02-10T08:24:24+0000",
+			"created_at": "2016-02-08T19:55:06+0000",
+			"emails": [
+				"cheongwillie@gmail.com"
+			],
+			"phones": [
+				"+12064130442"
+			],
+			"beacons": [
+				"56b9ac246961e2ec430041a8",
+				"56b9ac246961e2ec430041a9"
+			],
+			"metadata": []
+		}
+	]
+}
+```
+
 #### Endpoint prefix: `/`
 
 - GET /beacon
