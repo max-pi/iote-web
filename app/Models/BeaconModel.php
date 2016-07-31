@@ -9,6 +9,7 @@ class BeaconModel extends BaseModel {
 		$array = parent::toArray();
 		$array['batch'] = $this->batch;
 		$array['users'] = $this->users;
+		$array['pings'] = $this->pings;
 		$array['metadata'] = $this->metadata;
 		return $array;
 	}
@@ -17,8 +18,28 @@ class BeaconModel extends BaseModel {
 		return BaseModel::castArray($attr);
 	}
 
+	public function getPingsAttribute($attr) {
+		return BaseModel::castArray($attr);
+	}
+
 	public function getMetadataAttribute($attr) {
 		return BaseModel::castArray($attr);
+	}
+
+	public function ping($coordinates, $reporterId, $appId) {
+		$reporter = UserModel::find($reporterId);
+		if (is_null($reporter)) {
+			return false;
+		}
+
+		$this->push([
+			'timestamp' => date('c'),
+			'coordinates' => $coordinates,
+			'reporterId' => $reporter->_id,
+			'appId' => $appId,
+		]);
+
+		return true;
 	}
 
 	public function attach($userId) {

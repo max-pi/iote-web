@@ -42,7 +42,7 @@ class UserController extends BaseController {
 	/*********************************
 	 * Attaches metadata to the current user
 	 * 	Required param is `metadata`, an object that can be of any shape */
-	public function putIndex(Request $request) { // AUTHENTICATION REQUIRED
+	public function putMetadata(Request $request) { // AUTHENTICATION REQUIRED
 		if (is_null($this->user)) {
 			return $this->makeUnauthorized();
 		}
