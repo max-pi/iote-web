@@ -95,7 +95,7 @@ iote-web
 	- AUTHENTICATION REQUIRED
 	- Starts process for adding contact to current user
 	- Required param is `contact` which can be either an email or phone number
-	- Returns user object; note that the newly added contact must be verified, only then it will be tagged to the user
+	- Returns user object; note that this newly added contact must be verified using the code sent to the email/phone before it will be tagged to the user
 
 - POST /user/register
 	- Creates new user object and sends verification messages
