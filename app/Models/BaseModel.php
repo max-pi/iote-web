@@ -3,7 +3,7 @@
 namespace Iote\Models;
 
 use Carbon\Carbon;
-use Jenssegers\Mongodb\Model as Moloquent;
+use Jenssegers\Mongodb\Eloquent\Model as Moloquent;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
 class BaseModel extends Moloquent {
