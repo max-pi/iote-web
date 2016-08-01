@@ -29,6 +29,7 @@ class Kernel extends HttpKernel {
 			\Illuminate\Session\Middleware\StartSession::class,
 			\Illuminate\View\Middleware\ShareErrorsFromSession::class,
 			\Iote\Http\Middleware\Authenticate::class,
+			\Iote\Http\Middleware\ClientAccess::class,
 		],
 	];
 

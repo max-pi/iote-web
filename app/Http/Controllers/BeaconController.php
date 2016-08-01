@@ -118,6 +118,6 @@ class BeaconController extends BaseController {
 			$input['appId']
 		);
 
-		return $this->makeSuccess("Location updated for this beacon", $beacon);
+		return $this->makeSuccess("Location updated for this beacon", BeaconModel::find($beacon->_id));
 	}
 }

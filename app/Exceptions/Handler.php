@@ -46,6 +46,11 @@ class Handler extends ExceptionHandler {
 	public function render($request, Exception $e) {
 		if($this->isHttpException($e)) {
 			switch ($e->getStatusCode()) {
+				case 403: // client not authorized
+					$response = new Response(['message'=>"Access not authorized"], 403);
+					$response->header('Content-Type', 'application/json');
+					return $response;
+					break;
 				case 404: // not found
 					$response = new Response(['message'=>"Endpoint not found"], 404);
 					$response->header('Content-Type', 'application/json');

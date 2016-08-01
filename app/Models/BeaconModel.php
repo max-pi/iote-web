@@ -32,7 +32,7 @@ class BeaconModel extends BaseModel {
 			return false;
 		}
 
-		$this->push([
+		$this->push('pings', [
 			'timestamp' => date('c'),
 			'coordinates' => $coordinates,
 			'reporterId' => $reporter->_id,
