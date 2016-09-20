@@ -22,3 +22,4 @@
 | 30 Jul 2016 | 8 | Endpoint for storing reported beacon-location pings, client authentication via middleware, and REST API documentation |
 | 01 Aug 2016 | 4 | Deployment onto new production servers running on PHP 7.0.8 |
 | 04 Aug 2016 | - | Received payment of $300 via Venmo |
+| 18 Sep 2016 | 3 | API support and Gmail SMTP debugging |
