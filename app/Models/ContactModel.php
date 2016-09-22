@@ -46,10 +46,12 @@ class ContactModel extends BaseModel {
 			$code = ContactModel::generateCode();
 		}
 
-		$this->push('attempts', [
+		$this->attempts[] = [
 			'code' => $code,
 			'user' => $userId,
-		]);
+		];
+
+		$this->save();
 
 		$this->sendVerificationMail($code);
 	}
