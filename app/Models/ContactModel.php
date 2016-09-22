@@ -46,11 +46,6 @@ class ContactModel extends BaseModel {
 			$code = ContactModel::generateCode();
 		}
 
-		if (!isset($this->attempts)) {
-			$this->attempts = [];
-			$this->save();
-		}
-
 		$this->push('attempts', [
 			'code' => $code,
 			'user' => $userId,
