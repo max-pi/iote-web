@@ -23,3 +23,4 @@
 | 01 Aug 2016 | 4 | Deployment onto new production servers running on PHP 7.0.8 |
 | 04 Aug 2016 | - | Received payment of $300 via Venmo |
 | 18 Sep 2016 | 3 | API support and Gmail SMTP debugging |
+| 21 Sep 2016 | 2 | Debug and fix regression caused by Moloquent upgrade |
