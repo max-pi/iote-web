@@ -39,7 +39,7 @@ class CreateBeaconsCommand extends Command {
 		$user = UserModel::find($input['user']);
 		$batch = BeaconBatchModel::create([
 			'user' => isset($user->_id) ? $user->_id : null
-		]);
+		])->first();
 
 		$bar->advance();
 		$this->line(" Initialized batch [".$batch->_id."]");
@@ -47,7 +47,7 @@ class CreateBeaconsCommand extends Command {
 		for ($i=0; $i < $input['size']; $i++) {
 			$beacon = BeaconModel::create([
 				'batch' => $batch->_id
-			]);
+			])->first();
 
 			if (!is_null($user)) {
 				$beacon->attach($user->_id);

@@ -166,7 +166,7 @@ class UserController extends BaseController {
 
 		$user = UserModel::create([
 			'password' => $input['password']
-		]);
+		])->first();
 
 		$contact->recordUserAttempt($user->_id);
 
