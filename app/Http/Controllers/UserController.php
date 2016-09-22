@@ -128,7 +128,7 @@ class UserController extends BaseController {
 
 		$contact = ContactModel::firstOrCreate([
 			'contact' => $input['contact']
-		]);
+		])->first();
 
 		if ($contact->confirmed) {
 			return $this->makeError("Contact already registered to an account");
@@ -158,7 +158,7 @@ class UserController extends BaseController {
 
 		$contact = ContactModel::firstOrCreate([
 			'contact' => $input['contact']
-		]);
+		])->first();
 
 		if ($contact->confirmed) {
 			return $this->makeError("Contact already registered to an account");
