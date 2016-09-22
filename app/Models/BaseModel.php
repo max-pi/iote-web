@@ -11,7 +11,7 @@ class BaseModel extends Moloquent {
 	public $timestamps = true;
 	public $incrementing = false;
 	protected $dates = ['created_at', 'updated_at', 'deleted_at'];
-	protected $guarded = ['_id'];
+	protected $guarded = [];
 
 	public function getCreatedAtAttribute($attr) {
 		return Carbon::parse($attr)->toIso8601String();

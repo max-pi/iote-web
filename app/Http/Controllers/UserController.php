@@ -164,9 +164,9 @@ class UserController extends BaseController {
 			return $this->makeError("Contact already registered to an account");
 		}
 
-		$user = new UserModel();
-		$user->password = $input['password'];
-		$user->save();
+		$user = UserModel::create([
+			'password' => $input['password']
+		]);
 
 		$contact->recordUserAttempt($user->_id);
 
