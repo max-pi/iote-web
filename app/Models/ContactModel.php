@@ -48,6 +48,7 @@ class ContactModel extends BaseModel {
 
 		if (!isset($this->attempts)) {
 			$this->attempts = [];
+			$this->save();
 		}
 
 		$this->push('attempts', [
